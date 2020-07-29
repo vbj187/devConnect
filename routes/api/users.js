@@ -71,7 +71,7 @@ router.post('/',
             // user documented created in DB
             await user.save();
 
-            // Return a JsonWebToken
+            // Creating a payload to send
             const payload = {
                 user: {
                     id: user.id
@@ -84,7 +84,7 @@ router.post('/',
                 // passing the secret
                 config.get('jwtSecret'),
                 // setting token expiration time
-                { expiresIn: '1h' },
+                { expiresIn: '12h' },
                 // callback function that handles the signing
                 (err, token) => {
                     // sends token if there isn't any error
