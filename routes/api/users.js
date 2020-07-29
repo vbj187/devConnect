@@ -7,6 +7,11 @@ const gravatar = require('gravatar');
 // package to encrypt the password
 const bcrypt = require('bcryptjs');
 
+// package for sessions token
+const jwt = require('jsonwebtoken');
+// require secretOrPrivate key from config
+const config = require('config');
+
 // for validating the request
 const { check, validationResult } = require('express-validator');
 
@@ -44,9 +49,8 @@ router.post('/',
         try {
             // Check if the user exists and if so, send an error response
             let user = await User.findOne({ email });
-            if (user) {
-                return res.status(400).json({ error: 'User Already Exists' });
-            }
+            if (user) return res.status(400).json({ error: 'User Already Exists' });
+
             // Get User's gravatar
             const avatar = gravatar.url(email, {
                 // configurations for gravatar, where pg - represents non adult content pictures
@@ -68,7 +72,25 @@ router.post('/',
             await user.save();
 
             // Return a JsonWebToken
-            return res.send(req.body);
+            const payload = {
+                user: {
+                    id: user.id
+                }
+            };
+            // signing a token for session
+            jwt.sign(
+                // passing the payload
+                payload,
+                // passing the secret
+                config.get('jwtSecret'),
+                // setting token expiration time
+                { expiresIn: '1h' },
+                // callback function that handles the signing
+                (err, token) => {
+                    // sends token if there isn't any error
+                    if (err) throw err;
+                    res.send({ token });
+                });
 
         } catch (error) {
             console.error(error.message);
