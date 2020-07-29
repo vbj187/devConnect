@@ -45,34 +45,34 @@ router.post('/',
             // Check if the user exists and if so, send an error response
             let user = await User.findOne({ email });
             if (user) {
-                res.status(400).json({ error: 'User Already Exists' });
-            } else {
-                // Get User's gravatar
-                const avatar = gravatar.url(email, {
-                    // configurations for gravatar, where pg - represents non adult content pictures
-                    s: '200',
-                    r: 'pg',
-                    d: 'mm'
-                });
-
-                // instantiate User model to the user to be created
-                user = new User({ name, email, avatar, password });
-
-                // Encrypt the password using bcryptjs
-                // default of 10 salt rounds is recommended
-                const salt = await bcrypt.genSalt(10);
-                // creates a has for the password
-                user.password = await bcrypt.hash(password, salt);
-
-                // user documented created in DB
-                await user.save();
-
-                // Return a JsonWebToken
-                res.send(req.body);
+                return res.status(400).json({ error: 'User Already Exists' });
             }
+            // Get User's gravatar
+            const avatar = gravatar.url(email, {
+                // configurations for gravatar, where pg - represents non adult content pictures
+                s: '200',
+                r: 'pg',
+                d: 'mm'
+            });
+
+            // instantiate User model to the user to be created
+            user = new User({ name, email, avatar, password });
+
+            // Encrypt the password using bcryptjs
+            // default of 10 salt rounds is recommended
+            const salt = await bcrypt.genSalt(10);
+            // creates a has for the password
+            user.password = await bcrypt.hash(password, salt);
+
+            // user documented created in DB
+            await user.save();
+
+            // Return a JsonWebToken
+            return res.send(req.body);
+
         } catch (error) {
             console.error(error.message);
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         }
     }
 );
