@@ -52,7 +52,7 @@ router.post('/',
         // validation the request
         const errors = validationResult(req);
         // if the validation fails, returns with error response
-        if (!errors.isEmpty()) return res.send(400).json({ errors: errors.array() });
+        if (!errors.isEmpty()) return res.sendStatus(400).json({ errors: errors.array() });
 
         const { company, website, location, bio, status, githubusername, skills, youtube, facebook, twitter, instagram, linkedin } = req.body;
 
@@ -80,6 +80,16 @@ router.post('/',
         try {
             // Check if there is a profile
             let profile = await Profile.findOne({ user: req.user.id });
+
+            // if there is a profile that already exists, update the profile in DB
+            if (profile) {
+                profile = await Profile.findOneAndUpdate(
+                    { user: req.user.id },
+                    { $set: profileFields },
+                    { new: true }
+                );
+                return res.json(profile);
+            }
 
             // Create Profile
             // Create an instance of the Profile document 
