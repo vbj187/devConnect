@@ -104,6 +104,8 @@ router.delete('/:id', auth, async (req, res) => {
         if (!post) return res.status(404).json({ message: 'Post not found' });
 
         // Check if the user owns the post
+        // toString() method is implemented as the user object in the document will have a type of id
+        // which will not match with the document type 
         if (post.user.toString() !== req.user.id) return res.status(401).json({ message: 'User not authorized' });
 
         // If the user owns the post
@@ -115,6 +117,32 @@ router.delete('/:id', auth, async (req, res) => {
     } catch (error) {
         console.error(error.message);
         if (error.kind === 'ObjectId') return res.status(404).json({ message: 'Post not found' });
+        res.status(500).send('Server Error');
+    }
+});
+
+/**
+*  @route        PUT api/posts/like/:id
+*  @desc         Like a post
+*  @access       Private
+**/
+router.put('/like/:id', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+
+        // check if the post is already liked by the user
+        if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
+            return res.status(400).json({ message: 'Post Already Liked' });
+        }
+        // if not liked already
+        post.likes.unshift({ user: req.user.id });
+
+        // save the object to the document
+        await post.save();
+        // return likes array as response
+        res.json(post.likes);
+    } catch (error) {
+        console.error(error.message);
         res.status(500).send('Server Error');
     }
 });
