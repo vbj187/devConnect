@@ -56,7 +56,7 @@ router.post('/',
         // if validation results are not empty
         // sends an error response
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.sendStatus(400).json({ errors: errors.array() });
         }
 
         // Destructure from req.body
@@ -66,12 +66,12 @@ router.post('/',
         try {
             // Check if the user exists and if so, send an error response
             let user = await User.findOne({ email });
-            if (!user) return res.status(400).json({ errors: { message: 'Invalid Credentials' } });
+            if (!user) return res.sendStatus(400).json({ errors: { message: 'Invalid Credentials' } });
 
             // compare if the hashed password in the DB is matched for the password given entered by the user
             const isMatch = await bcrypt.compare(password, user.password);
             // if not matched, return a response of invalid credentials
-            if (!isMatch) return res.status(400).json({ errors: { message: 'Invalid Credentials' } });
+            if (!isMatch) return res.sendStatus(400).json({ errors: { message: 'Invalid Credentials' } });
 
             // Creating a payload to send
             const payload = {
@@ -96,7 +96,7 @@ router.post('/',
 
         } catch (error) {
             console.error(error);
-            return res.status(500).json({ error: error.message });
+            return res.sendStatus(500).json({ error: error.message });
         }
     }
 );
