@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
+const { check, validationResult, body } = require('express-validator');
 
 // for authenticating
 const auth = require('../../middleware/auth');
@@ -8,6 +8,12 @@ const auth = require('../../middleware/auth');
 // to check document schema
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+
+// importing request module
+const request = require('request');
+
+// importing config module
+const config = require('config');
 
 /**
 *  @route        GET api/profile/me
@@ -168,17 +174,19 @@ router.put('/experience',
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-
+        // destructure keys from the req body
         const { title, company, location, from, to, current, description } = req.body;
-
+        // assign to the object later to be added to the document
         const newExp = { title, company, location, from, to, current, description };
 
         try {
+            // filters the profile based on the authenticated user
             const profile = await Profile.findOne({ user: req.user.id });
+            // adds the newEdu object to the education key in the document
             profile.experience.unshift(newExp);
-
+            // saves the document
             await profile.save();
-
+            // returns profile document on success
             res.json(profile);
         } catch (error) {
             console.error(error.message);
@@ -234,16 +242,19 @@ router.put('/education',
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
+        // destructure keys from the req body
         const { school, degree, fieldofstudy, from, to, current, description } = req.body;
-
+        // assign to the object later to be added to the document
         const newEdu = { school, degree, fieldofstudy, from, to, current, description };
 
         try {
+            // filters the profile based on the authenticated user
             const profile = await Profile.findOne({ user: req.user.id });
+            // adds the newEdu object to the education key in the document
             profile.education.unshift(newEdu);
-
+            // saves the document
             await profile.save();
-
+            // returns profile document on success
             res.json(profile);
         } catch (error) {
             console.error(error.message);
