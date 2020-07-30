@@ -174,4 +174,50 @@ router.put('/unlike/:id', auth, async (req, res) => {
     }
 });
 
+/**
+*  @route        POST api/posts/comment/:id
+*  @desc         Comment on a Post
+*  @access       Private
+*/
+router.post('/comment/:id',
+    [
+        // implement auth before every calling the callback function
+        // if not authenticated, return with an unauthorized response
+        auth,
+        // validation
+        [
+            check('text', 'Text is required').not().isEmpty()
+        ]
+    ]
+    , async (req, res) => {
+        // if any errors in validation
+        // send error response
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+        try {
+            // assigning the current user to a variable based on user obtained from auth
+            const user = await User.findById(req.user.id).select('-password');
+            // get the relevant post
+            const post = await Post.findById(req.params.id);
+            // create an comment object
+            const newComment = {
+                text: req.body.text,
+                name: user.name,
+                avatar: user.avatar,
+                user: req.user.id
+            };
+            // add comments key and object to the document
+            post.comments.unshift(newComment);
+            // save the post
+            await post.save();
+            // return post as response
+            res.json(post.comments);
+        } catch (error) {
+            console.error(error.message);
+            res.status(500).send('Server Error');
+        }
+    });
+
+
 module.exports = router;
