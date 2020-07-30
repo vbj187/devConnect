@@ -84,8 +84,11 @@ router.post('/',
             // if there is a profile that already exists, update the profile in DB
             if (profile) {
                 profile = await Profile.findOneAndUpdate(
+                    // finds the user based on the id mapped to the request by auth
                     { user: req.user.id },
+                    // $set replaces the fields with the new object created
                     { $set: profileFields },
+                    // to modify the original with the new document
                     { new: true }
                 );
                 return res.json(profile);
@@ -110,7 +113,12 @@ router.post('/',
 **/
 router.get('/', async (req, res) => {
     try {
-        const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+        // finds all documents in profile collection
+        const profiles = await Profile.find()
+            // populates every document with the appropriate user's name & gravatar from the user collection matching user id
+            .populate('user', ['name', 'avatar']);
+
+        // send all the profiles documents
         res.json(profiles);
     } catch (error) {
         console.error(error.message);
@@ -118,6 +126,30 @@ router.get('/', async (req, res) => {
     }
 });
 
+/**
+*  @route        GET api/profile/user/:user_id
+*  @desc         Get profile by user_id
+*  @access       Public
+**/
+router.get('/user/:user_id', async (req, res) => {
+    try {
+        // finds the specific document in profile collection for the user_id
+        const profile = await Profile.findOne({ user: req.params.user_id })
+            // populates every document with the appropriate user's name & gravatar from the user collection matching user id
+            .populate('user', ['name', 'avatar']);
+
+        // check if a profile exists for the user and otherwise send an error response
+        if (!profile) return res.status(400).json({ message: "Profile not found" });
+
+        // when successfull, return the profile document
+        res.json(profile);
+    } catch (error) {
+        console.error(error.message);
+        if (error.kind === 'ObjectId') return res.status(400).json({ message: "Profile not found" });
+
+        res.status(500).send('Server Error');
+    }
+});
 
 
 module.exports = router;
