@@ -23,7 +23,7 @@ const { check, validationResult } = require('express-validator');
 *  @route        GET api/auth
 *  @desc         Test route
 *  @access       Public
-*/
+**/
 router.get('/', auth, async (req, res) => {
     try {
         // assigns user by finding the document from the DB using the userId got from auth middleware
@@ -41,7 +41,7 @@ router.get('/', auth, async (req, res) => {
 *  @route        POST api/auth
 *  @desc         Authenticate user & get token
 *  @access       Public
-*/
+**/
 router.post('/',
     // middleware for validating req.body
     [

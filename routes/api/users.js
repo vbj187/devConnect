@@ -23,7 +23,7 @@ const User = require('../../models/User');
  * @route        POST api/users
  * @desc         Register User
  * @access       Public
- */
+ **/
 router.post('/',
     // middleware for validating req.body
     [
