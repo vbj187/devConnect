@@ -1,4 +1,6 @@
 {
     "mongoURI": "mongodb+srv://dev-vignesh:EWwnrTGG1fgHlqaW@devconnectone.ltt77.mongodb.net/DevConnectOne?retryWrites=true&w=majority",
-    "jwtSecret": "mysecrettoken"
+    "jwtSecret": "mysecrettoken",
+    "githubClientId": "ad63c76ffd53d6a55d63",
+    "githubSecret": "1184e2c504ae6aab0afd39dbae72c66f1e679487"
 }
