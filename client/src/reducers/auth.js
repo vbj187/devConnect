@@ -1,4 +1,4 @@
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR } from '../actions/types';
+import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL } from '../actions/types';
 // create an initial state to pass on to the funtion
 const initialState = {
     token: localStorage.getItem('token'),
@@ -22,6 +22,7 @@ export default function (state = initialState, action) {
             };
         // on successfull registration, get the token and set it to the localstorage along with a few state change
         case REGISTER_SUCCESS:
+        case LOGIN_SUCCESS:
             localStorage.setItem('token', payload.token);
             return {
                 ...state,
@@ -32,6 +33,7 @@ export default function (state = initialState, action) {
         // on register/login fail, remove token from local storage and perform state change
         case REGISTER_FAIL:
         case AUTH_ERROR:
+        case LOGIN_FAIL:
             localStorage.removeItem('token');
             return {
                 ...state,

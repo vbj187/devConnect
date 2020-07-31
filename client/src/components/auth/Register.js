@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { setAlert } from '../../actions/alert';
 // to declare type of property
 import PropTypes from 'prop-types';
-// to perform user registration, also pass it to connect in export
+// import register action to perform user registration, also pass it to connect in export
 import { register } from "../../actions/auth";
 
 // props are bound to all the state through connect
@@ -34,6 +34,7 @@ const Register = ({ setAlert, register }) => {
             // setState for alert, first params being message and the second being alert type
             setAlert('Passwords do not match', 'danger');
         } else {
+            // call register action and pass on the email and password
             register({ name, email, password });
         }
     };
