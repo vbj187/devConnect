@@ -1,6 +1,6 @@
 import axios from 'axios';
 // import action types
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL } from './types';
+import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from './types';
 // import setState function for Alert
 import { setAlert } from './alert';
 // to utilize the global headers
@@ -99,4 +99,10 @@ export const login = (email, password) => async dispatch => {
             type: LOGIN_FAIL
         });
     }
+};
+
+// Logout
+// clear Profile
+export const logout = () => dispatch => {
+    dispatch({ type: LOGOUT });
 };
