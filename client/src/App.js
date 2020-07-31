@@ -7,6 +7,7 @@ import NavBar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import Alert from './components/layout/Alert';
 // Provider connects redux to react
 import { Provider } from "react-redux";
 // to use the managed states
@@ -21,6 +22,7 @@ const App = () =>
         <NavBar />
         <Route exact path='/' component={Landing} />
         <section className="container">
+          <Alert />
           {/* Switch is for private route */}
           <Switch>
             <Route exact path='/Register' component={Register} />
