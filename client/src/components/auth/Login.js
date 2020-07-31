@@ -1,7 +1,7 @@
 // import useState & Fragment from react
 import React, { Fragment, useState } from 'react';
 // for routing
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 // to establish connection with redux, also export
 import { connect } from "react-redux";
 // to declare type of property
@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 // import login action to perform user login, also pass it to connect in export
 import { login } from "../../actions/auth";
 
-const Login = ({ login }) => {
+const Login = ({ login, isAuthenticated }) => {
     // initialize state
     const [formData, setFormData] = useState({
         email: '',
@@ -26,6 +26,9 @@ const Login = ({ login }) => {
         // call login action and pass on the email and password formData
         login(email, password);
     };
+
+    // redirect if logged in
+    if (isAuthenticated) return <Redirect to='/dashboard' />;
 
     return (
         <Fragment>
@@ -64,6 +67,12 @@ const Login = ({ login }) => {
 // declaring propTypes
 Login.propTypes = {
     login: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
 };
 
-export default connect(null, { login })(Login);
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { login })(Login);

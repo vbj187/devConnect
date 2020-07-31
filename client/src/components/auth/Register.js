@@ -1,7 +1,7 @@
 // import useState & Fragment from react
 import React, { Fragment, useState } from 'react';
 // for routing
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 // to establish connection with redux, also export
 import { connect } from "react-redux";
 // import to use the action, also pass it to connect in export
@@ -13,7 +13,7 @@ import { register } from "../../actions/auth";
 
 // props are bound to all the state through connect
 // states are destructured from props
-const Register = ({ setAlert, register }) => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
     // initialize state
     const [formData, setFormData] = useState({
         name: '',
@@ -38,6 +38,8 @@ const Register = ({ setAlert, register }) => {
             register({ name, email, password });
         }
     };
+    // redirects if authenticated
+    if (isAuthenticated) return <Redirect to="/dashboard" />;
 
     return (
         <Fragment>
@@ -100,6 +102,11 @@ const Register = ({ setAlert, register }) => {
 Register.propTypes = {
     setAlert: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
 };
 
-export default connect(null, { setAlert, register })(Register);
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { setAlert, register })(Register);
