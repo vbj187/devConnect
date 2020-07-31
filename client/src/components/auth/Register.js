@@ -2,6 +2,8 @@
 import React, { Fragment, useState } from 'react';
 // for routing
 import { Link } from "react-router-dom";
+// http requests
+import axios from "axios";
 
 const Register = () => {
     // initialize state
@@ -16,14 +18,33 @@ const Register = () => {
     // on any event, onChange function calls setState for the event
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
     // on form submit, performs submit action
-    // now a dummy to check performance
-    const onSubmit = e => {
+    // with axios
+    const onSubmit = async e => {
         e.preventDefault();
-
+        // when passwords don't match, console the error
         if (password !== password2) {
-            console.log('Passwords do not match');
+            console.error('Passwords do not match');
         } else {
-            console.log(formData);
+            // create newUser object from the form event to send as a request
+            const newUser = { name, email, password };
+
+            try {
+                // configuration for the request to be made
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                // stringify the object before sending as a request
+                const body = JSON.stringify(newUser);
+                // perform post request with axios
+                // route is shortened because a proxy is added in the package
+                const res = await axios.post('/api/users', body, config);
+                console.log(res.data);
+            } catch (error) {
+                console.error(error.response.data);
+            }
         }
     };
 
