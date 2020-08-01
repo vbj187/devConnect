@@ -8,6 +8,8 @@ import { getCurrentProfile } from '../../actions/profile';
 import PropTypes from 'prop-types';
 // loading component
 import Spinner from '../layout/Spinner';
+// actions component
+import DashboardActions from './DashboardActions';
 
 const Dashboard = ({
   getCurrentProfile,
@@ -30,7 +32,9 @@ const Dashboard = ({
         {user && user.name}
       </p>
       {profile !== null ? (
-        <Fragment>has</Fragment>
+        <Fragment>
+          <DashboardActions />
+        </Fragment>
       ) : (
         <Fragment>
           <p>You have not yet setup a Profile, please add your info</p>
