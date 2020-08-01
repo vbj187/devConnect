@@ -1,17 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 // to establish connection with redux, also export
 import { connect } from 'react-redux';
 // to perform fetching current user profile
 import { getCurrentProfile } from '../../actions/profile';
 // to declare type of property
 import PropTypes from 'prop-types';
+// loading component
+import Spinner from '../layout/Spinner';
 
-const Dashboard = ({ getCurrentProfile, auth, profile }) => {
+const Dashboard = ({
+  getCurrentProfile,
+  auth: { user },
+  profile: { profile, loading },
+}) => {
   useEffect(() => {
     getCurrentProfile();
   }, []);
 
-  return <div>Dashboard</div>;
+  return loading && profile === null ? (
+    <Spinner />
+  ) : (
+    <Fragment>
+      <h1 className='large text-primary'>Dashboard</h1>
+      <p className='lead'>
+        <i className='fas fa-user'></i> Welcome{'  '}
+        {user && user.name}
+      </p>
+      {profile !== null ? (
+        <Fragment>has</Fragment>
+      ) : (
+        <Fragment>has not</Fragment>
+      )}
+    </Fragment>
+  );
 };
 
 // declare property type
