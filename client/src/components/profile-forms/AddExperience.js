@@ -1,10 +1,14 @@
 import React, { Fragment, useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+// to declare type of property
 import PropTypes from 'prop-types';
+// to establish connection with redux, also export
 import { connect } from 'react-redux';
+// addExperience action to add experience to the profile
 import { addExperience } from '../../actions/profile';
 
 const AddExperience = ({ addExperience, history }) => {
+  // initial state for formData
   const [formData, setFormData] = useState({
     company: '',
     title: '',
@@ -14,15 +18,16 @@ const AddExperience = ({ addExperience, history }) => {
     current: false,
     description: '',
   });
-
+  //   state to toggle current job button
   const [toDateDisabled, toggleDisabled] = useState(false);
-
+  //   destructure from formData
   const { company, title, location, from, to, current, description } = formData;
-
+  //   onChange event handler for inputs
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   return (
+    //   inline submit event done
     <Fragment>
       <h1 class='large text-primary'>Add An Experience</h1>
       <p class='lead'>
