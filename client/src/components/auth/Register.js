@@ -105,6 +105,7 @@ Register.propTypes = {
     isAuthenticated: PropTypes.bool,
 };
 
+// selects that part of the data from the store
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 });
