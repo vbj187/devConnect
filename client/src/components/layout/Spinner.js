@@ -1,3 +1,4 @@
+// REUSABLE SPINNER COMPONENT TO USE OF LOADING
 import React, { Fragment } from 'react';
 // loading gif
 import spinner from './spinner.gif';
@@ -7,7 +8,12 @@ export default () => {
     <Fragment>
       <img
         src={spinner}
-        style={{ width: '200px', margin: 'auto', display: 'block' }}
+        style={{
+          width: '200px',
+          margin: 'auto',
+          marginTop: '20%',
+          display: 'block',
+        }}
         alt='Loading...'
       />
     </Fragment>

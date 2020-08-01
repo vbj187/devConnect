@@ -1,4 +1,5 @@
 import React, { useEffect, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 // to establish connection with redux, also export
 import { connect } from 'react-redux';
 // to perform fetching current user profile
@@ -16,7 +17,9 @@ const Dashboard = ({
   useEffect(() => {
     getCurrentProfile();
   }, []);
-
+  // ternary to render component
+  // Spinner when loading && profile are null
+  // else return Dashboard components
   return loading && profile === null ? (
     <Spinner />
   ) : (
@@ -29,7 +32,12 @@ const Dashboard = ({
       {profile !== null ? (
         <Fragment>has</Fragment>
       ) : (
-        <Fragment>has not</Fragment>
+        <Fragment>
+          <p>You have not yet setup a Profile, please add your info</p>
+          <Link to='/create-profile' className='btn btn-primary my-1'>
+            Create Profile
+          </Link>
+        </Fragment>
       )}
     </Fragment>
   );
