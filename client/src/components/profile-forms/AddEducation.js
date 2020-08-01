@@ -101,7 +101,7 @@ const AddEducation = ({ addEducation, history }) => {
               }}
               checked={current}
             />{' '}
-            Current Job
+            Current
           </p>
         </div>
         <div class='form-group'>
