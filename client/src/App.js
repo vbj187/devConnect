@@ -8,6 +8,7 @@ import Landing from './components/layout/Landing';
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Alert from './components/layout/Alert';
+import Dashboard from './components/dashboard/Dashboard';
 // Provider connects redux to react
 import { Provider } from "react-redux";
 // to use the managed states
@@ -39,8 +40,9 @@ const App = () => {
             <Alert />
             {/* Switch is for private route */}
             <Switch>
-              <Route exact path='/Register' component={Register} />
-              <Route exact path='/Login' component={Login} />
+              <Route exact path='/register' component={Register} />
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/dashboard' component={Dashboard} />
             </Switch>
           </section>
         </Fragment>
