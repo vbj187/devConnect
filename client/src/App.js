@@ -43,7 +43,7 @@ const App = () => {
             <Switch>
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
-              {/* private route component */}
+              {/* for PROTECTED ROUTING */}
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
             </Switch>
           </section>
