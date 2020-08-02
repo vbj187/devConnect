@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 // to establish connection with redux, also export
 import { connect } from 'react-redux';
 // to perform fetching current user profile
-import { getCurrentProfile } from '../../actions/profile';
+import { getCurrentProfile, deleteAccount } from '../../actions/profile';
 // to declare type of property
 import PropTypes from 'prop-types';
 // loading component
@@ -15,6 +15,7 @@ import Education from './Education';
 
 const Dashboard = ({
   getCurrentProfile,
+  deleteAccount,
   auth: { user },
   profile: { profile, loading },
 }) => {
@@ -38,6 +39,12 @@ const Dashboard = ({
           <DashboardActions />
           <Experience experience={profile.experience} />
           <Education education={profile.education} />
+          <div className='my-2'>
+            <button className='btn btn-danger' onClick={() => deleteAccount()}>
+              <i className='fas fa-user-minus'></i>
+              {'  '} Delete my account
+            </button>
+          </div>
         </Fragment>
       ) : (
         <Fragment>
@@ -54,6 +61,7 @@ const Dashboard = ({
 // declare property type
 Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
+  deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
 };
@@ -64,4 +72,6 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);
+export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
+  Dashboard
+);
