@@ -5,10 +5,12 @@ import { setAlert } from './alert';
 // action types to dispatch payload
 import {
   GET_PROFILE,
+  GET_PROFILES,
   PROFILE_ERROR,
   UPDATE_PROFILE,
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
+  GET_REPOS,
 } from './types';
 
 // function to get current user's profile
@@ -21,6 +23,78 @@ export const getCurrentProfile = () => async (dispatch) => {
     // dispatch payload to the action type
     dispatch({
       type: GET_PROFILE,
+      payload: res.data,
+    });
+  } catch (error) {
+    // if any error occurs, dispatch it to the error types
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+// Get all profiles
+export const getProfiles = () => async (dispatch) => {
+  dispatch({
+    type: CLEAR_PROFILE,
+  });
+  try {
+    // request to get the all user profile
+    const res = await axios.get('/api/profile');
+    // on successfull response
+    // dispatch payload to the action type
+    dispatch({
+      type: GET_PROFILES,
+      payload: res.data,
+    });
+  } catch (error) {
+    // if any error occurs, dispatch it to the error types
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+// Get profile by ID
+export const getProfileById = (userId) => async (dispatch) => {
+  try {
+    // request to get the all user profile
+    const res = await axios.get(`/api/profile/user/${userId}`);
+    // on successfull response
+    // dispatch payload to the action type
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data,
+    });
+  } catch (error) {
+    // if any error occurs, dispatch it to the error types
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+// Get GitHub Repos
+export const getGithubRepos = (username) => async (dispatch) => {
+  try {
+    // request to get the all user profile
+    const res = await axios.get(`/api/profile/github/${username}`);
+    // on successfull response
+    // dispatch payload to the action type
+    dispatch({
+      type: GET_REPOS,
       payload: res.data,
     });
   } catch (error) {
