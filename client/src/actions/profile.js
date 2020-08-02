@@ -278,7 +278,7 @@ export const deleteAccount = () => async (dispatch) => {
   if (window.confirm('Are you sure? This cannot be undone')) {
     try {
       // pass exp_id in the endpoint, refer API
-      const res = await axios.delete(`/api/profile`);
+      await axios.delete(`/api/profile`);
       // on success, dispatch update
       dispatch({ type: CLEAR_PROFILE });
       dispatch({ type: ACCOUNT_DELETED });
