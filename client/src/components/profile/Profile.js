@@ -53,6 +53,21 @@ const Profile = ({
                 <h4>Nothing to show</h4>
               )}
             </div>
+            <div className='profile-edu bg-white p-2'>
+              <h2 className='text-primary'>Education</h2>
+              {profile.education.length > 0 ? (
+                <Fragment>
+                  {profile.education.map((education) => (
+                    <ProfileEducation
+                      key={education.id}
+                      education={education}
+                    />
+                  ))}
+                </Fragment>
+              ) : (
+                <h4>Nothing to show</h4>
+              )}
+            </div>
           </div>
         </Fragment>
       )}
