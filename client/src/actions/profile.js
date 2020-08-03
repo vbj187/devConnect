@@ -211,7 +211,11 @@ export const addEducation = (formData, history) => async (dispatch) => {
     const errors = error.response.data.errors;
     // if any error, for every error setAlert
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(errors.message, 'danger')));
+      if (errors.length > 1) {
+        errors.forEach((error) => dispatch(setAlert(error.message, 'danger')));
+      } else {
+        dispatch(setAlert(errors.message, 'danger'));
+      }
     }
     // if any error occurs, dispatch it to the error types
     dispatch({
