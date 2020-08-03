@@ -73,11 +73,11 @@ router.post(
       // compare if the hashed password in the DB is matched for the password given entered by the user
       const isMatch = await bcrypt.compare(password, user.password);
       // if not matched, return a response of invalid credentials
-      if (!isMatch)
+      if (!isMatch) {
         return res
           .status(400)
           .json({ errors: { message: 'Invalid Credentials' } });
-
+      }
       // Creating a payload to send
       const payload = {
         user: {
@@ -101,7 +101,7 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server error');
+      return res.status(500).send('Server error');
     }
   }
 );
