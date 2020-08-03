@@ -15,6 +15,7 @@ import EditProfile from './components/profile-forms/EditProfile';
 import AddExperience from './components/profile-forms/AddExperience';
 import AddEducation from './components/profile-forms/AddEducation';
 import Profiles from './components/profiles/Profiles';
+import Profile from './components/profile/Profile';
 // Provider connects redux to react
 import { Provider } from 'react-redux';
 // to use the managed states
@@ -49,6 +50,7 @@ const App = () => {
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/profiles' component={Profiles} />
+              <Route exact path='/profile/:id' component={Profile} />
               {/* for PROTECTED ROUTING */}
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute

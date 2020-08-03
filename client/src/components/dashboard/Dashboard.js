@@ -21,7 +21,7 @@ const Dashboard = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, [getCurrentProfile]);
+  }, []);
   // ternary to render component
   // Spinner when loading && profile are null
   // else return Dashboard components
