@@ -18,6 +18,7 @@ import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
+import NotFound from './components/layout/NotFound';
 // Provider connects redux to react
 import { Provider } from 'react-redux';
 // to use the managed states
@@ -78,6 +79,7 @@ const App = () => {
               <PrivateRoute exact path='/posts' component={Posts} />
               <PrivateRoute exact path='/posts/:id' component={Post} />
             </Switch>
+            <Route component={NotFound} />
           </section>
         </Fragment>
       </Router>
